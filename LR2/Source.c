@@ -20,32 +20,6 @@ int count_number_of_cars(float weight) {
 	return (int)weight / 20 + 1;
 }
 
-int factorial(int last_number) {
-	if (last_number == 1) {
-		return 1;
-	}
-	return last_number * factorial(last_number - 1);
-}
-
-float count(float x, int i, double *sum_row, float sin_x, float fault) {
-	double term;
-	term = pow(-1, i - 1) * pow(x, (double)(2 * i - 1)) / factorial(2 * i - 1);
-
-	if (term < fault) {
-		term = pow(-1, i - 1) * pow(x, (double)(2 * i - 1)) / factorial(2 * i - 1);
-		printf("%lf\t -- %lf\n", pow(x, 2 * i - 1), term);
-		*sum_row += term;
-		return term;
-	}
-	term = (-1) * count(x, i + 1, sum_row, sin_x, fault) * (2 * i) * (2 * i + 1) / pow(x, 2);
-	printf("%d\t -- %lf\n", i, term);
-	*sum_row += term;
-
-	return term;
-
-}
-
-
 void program1() {
 
 	float weight;
@@ -85,42 +59,45 @@ void program1() {
 	}
 }
 
+int factorial(int last_number) {
+	if (last_number == 1) {
+		return 1;
+	}
+	return last_number * factorial(last_number - 1);
+}
+
+float count1(float x, int i, double* sum_row, float sin_x, float fault) {
+	double term;
+	term = pow(-1, i - 1) * pow(x, 2 * i - 1) / factorial(2 * i - 1);
+
+	if (fabs(term) < fault) {
+		return term;
+	}
+
+	term = (-1) * count1(x, i + 1, sum_row, sin_x, fault) * (2 * i) * (2 * i + 1) / pow(x, 2);
+	*sum_row += term;
+	return term;
+}
 
 void program_2() {
 
-	double x = 0.8, fault = 0.02, sin_x, sum_row = 0;
+	double x, fault, sin_x, sum_row = 0;
 
-	/*
 	printf("print x : ");
-	scanf_s("%f", &x);
+	scanf_s("%lf", &x);
 	printf("print fault: ");
-	scanf_s("%f", &fault);
-	*/
+	scanf_s("%lf", &fault);
 
 	sin_x = sin(x);
-	int i = 0;
-
-
-	//printf("%lf\n",pow(-1, 4 - 1)* pow(x, 2 * 4 - 1) / factorial(1, 2 * 4 - 1));
-	count(x, 1, &sum_row, sin_x, fault);
+	count1(x, 1, &sum_row, sin_x, fault);
 	printf("sin(x) = %lf\n", sin_x);
 	printf("sum of raw = %lf\n", sum_row);
-}
-
-void enter(int* a) {
-	scanf_s("%d", a);
 }
 
 int main() {
 	
 	//program1();
 	program_2();
-
-	/*
-	int a;
-	enter(&a);
-	printf("izi %d", a);
-	*/
 
 	_getch();
 	return 0;

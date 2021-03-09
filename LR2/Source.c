@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <conio.h>
 
 bool check_order(float weight, float length) {
 	if (weight < 50 || weight > 300 || length < 0 || length > 4000) {
@@ -27,7 +28,7 @@ void program1() {
 	int number_of_cars;
 	float insurance_cost;
 	float full_cost;
-	char chooser;
+	int chooser;
 
 	while (true) {
 		printf("print weight(tons): ");
@@ -51,11 +52,13 @@ void program1() {
 		else {
 			printf("impractical or imposible\n");
 		}
-		printf("\nprint c - continue, q - quit: ");
-		scanf_s("%c\n", &chooser);
-		if (chooser != 'c') {
+
+		printf("\nprint 1 - continue, else - quit: ");
+		scanf_s("%d", &chooser);
+		if (chooser != 1) {
 			break;
-		}
+		} 
+		printf("\n");
 	}
 }
 
@@ -102,14 +105,14 @@ void program_2() {
 	sin_x = sin(x);
 	count1(x, 1, &sum_row, fault);
 	printf("sin(x) = %lf\n", sin_x);
-	printf("sum of raw = %lf\n", sum_row);
-	printf("sum of raw = %lf\n", count2(x, sin_x, fault));
+	printf("sum of raw(recursion) = %lf\n", sum_row);
+	printf("sum of raw(standard) = %lf\n", count2(x, sin_x, fault));
 }
 
 int main() {
 	
-	//program1();
-	program_2();
+	program1();
+	//program_2();
 
 	_getch();
 	return 0;

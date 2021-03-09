@@ -66,7 +66,7 @@ int factorial(int last_number) {
 	return last_number * factorial(last_number - 1);
 }
 
-float count1(float x, int i, double* sum_row, float sin_x, float fault) {
+float count1(float x, int i, double* sum_row, float fault) {
 	double term;
 	term = pow(-1, i - 1) * pow(x, 2 * i - 1) / factorial(2 * i - 1);
 
@@ -74,13 +74,24 @@ float count1(float x, int i, double* sum_row, float sin_x, float fault) {
 		return term;
 	}
 
-	term = (-1) * count1(x, i + 1, sum_row, sin_x, fault) * (2 * i) * (2 * i + 1) / pow(x, 2);
+	term = (-1) * count1(x, i + 1, sum_row, fault) * (2 * i) * (2 * i + 1) / pow(x, 2);
 	*sum_row += term;
 	return term;
 }
 
-void program_2() {
+double count2(float x, float sin_x, double fault) {
+	double sum_row = 0;
+	int i = 1;
 
+	while (fabs(sin_x - sum_row) > fault) {
+		sum_row += pow(-1, i - 1) * pow(x, 2 * i - 1) / factorial(2 * i - 1);
+		i++;
+	}
+
+	return sum_row;
+}
+
+void program_2() {
 	double x, fault, sin_x, sum_row = 0;
 
 	printf("print x : ");
@@ -89,9 +100,10 @@ void program_2() {
 	scanf_s("%lf", &fault);
 
 	sin_x = sin(x);
-	count1(x, 1, &sum_row, sin_x, fault);
+	count1(x, 1, &sum_row, fault);
 	printf("sin(x) = %lf\n", sin_x);
 	printf("sum of raw = %lf\n", sum_row);
+	printf("sum of raw = %lf\n", count2(x, sin_x, fault));
 }
 
 int main() {
